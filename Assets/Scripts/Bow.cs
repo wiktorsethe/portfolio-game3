@@ -37,9 +37,4 @@ public class Bow : MonoBehaviour
         currentArrow = null;
         Reload();
     }
-
-    public bool IsReady()
-    {
-        return (!isReloading && currentArrow != null);
-    }
 }

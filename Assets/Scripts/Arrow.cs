@@ -5,13 +5,8 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     [SerializeField] private float damage;
-
     [SerializeField] private float torque;
-
     [SerializeField] private Rigidbody rb;
-
-    private string enemyTag;
-
     private bool didHit;
 
     public void Fly(Vector3 force)
@@ -26,11 +21,10 @@ public class Arrow : MonoBehaviour
     {
         if (didHit) return;
         didHit = true;
-
-        if (collider.CompareTag(enemyTag))
+        
+        if (collider.tag == "Enemy")
         {
-            //var health = collider.GetComponent<HealthController>();
-            //health.ApplyDamage(damage);
+            Debug.Log("HIT!");
         }
 
         rb.velocity = Vector3.zero;

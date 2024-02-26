@@ -1,32 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private Bow weapon;
+    [SerializeField] private Bow bow;
+    [SerializeField] private Sword sword;
 
     [SerializeField] private float firePowerSpeed;
+    [SerializeField] private float attackPower;
 
-    private bool fire;
+    private bool attack;
 
     void Start()
     {
-        weapon.Reload();
+        bow.Reload();
+        //sword.AttackCooldown();
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            fire = true;
+            attack = true;
         }
 
-        if (fire && Input.GetMouseButtonUp(0))
+        if (attack && Input.GetMouseButtonUp(0))
         {
-            weapon.Fire(firePowerSpeed);
-            fire = false;
+            bow.Fire(firePowerSpeed);
+            //sword.Sweep(attackPower);
+            attack = false;
         }
     }
 }
