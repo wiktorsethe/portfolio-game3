@@ -37,4 +37,8 @@ public class Bow : MonoBehaviour
         currentArrow = null;
         Reload();
     }
+    public void ChangeWeapon()
+    {
+        isReloading = false;
+    }
 }

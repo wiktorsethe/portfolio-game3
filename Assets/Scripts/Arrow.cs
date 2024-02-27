@@ -25,6 +25,7 @@ public class Arrow : MonoBehaviour
         if (collider.tag == "Enemy")
         {
             Debug.Log("HIT!");
+            collider.GetComponent<Enemy>().TakeDamage(10);
         }
 
         rb.velocity = Vector3.zero;

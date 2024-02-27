@@ -29,10 +29,15 @@ public class Sword : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("HIT!");
+                hit.collider.GetComponent<Enemy>().TakeDamage(10);
                 //hit.collider.GetComponent<EnemyController>().TakeDamage(attackDamage);
             }
         }
 
         AttackCooldown();
+    }
+    public void ChangeWeapon()
+    {
+        isRelaxing = false;
     }
 }

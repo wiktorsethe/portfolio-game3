@@ -12,13 +12,14 @@ public class WeaponController : MonoBehaviour
 
     private bool attack;
 
-    void Start()
+    [Range(0,1)]
+    public int selectedWeapon;
+    private void Start()
     {
-        bow.Reload();
-        //sword.AttackCooldown();
+        SelectWeapon();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -27,9 +28,41 @@ public class WeaponController : MonoBehaviour
 
         if (attack && Input.GetMouseButtonUp(0))
         {
-            bow.Fire(firePowerSpeed);
-            //sword.Sweep(attackPower);
+            if(selectedWeapon == 0) bow.Fire(firePowerSpeed);
+            else if(selectedWeapon == 1) sword.Sweep(attackPower);
             attack = false;
+        }
+
+        int previousSelectedWeapon = selectedWeapon;
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            if (selectedWeapon >= 1) selectedWeapon = 0;
+            else selectedWeapon++;
+        }
+
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            if (selectedWeapon <= 0) selectedWeapon = 1;
+            else selectedWeapon--;
+        }
+
+        if(previousSelectedWeapon != selectedWeapon) SelectWeapon();
+    }
+    private void SelectWeapon()
+    {
+        if (selectedWeapon == 0)
+        {
+            sword.ChangeWeapon();
+            bow.gameObject.SetActive(true);
+            sword.gameObject.SetActive(false);
+            bow.Reload();
+        }
+        else
+        {
+            bow.ChangeWeapon();
+            bow.gameObject.SetActive(false);
+            sword.gameObject.SetActive(true);
+            sword.AttackCooldown();
         }
     }
 }
