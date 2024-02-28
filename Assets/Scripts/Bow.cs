@@ -25,6 +25,7 @@ public class Bow : MonoBehaviour
     {
         yield return new WaitForSeconds(reloadTime);
         currentArrow = Instantiate(arrowPrefab, spawnPoint); //obj.pool
+        currentArrow.gameObject.SetActive(false);
         currentArrow.transform.localPosition = Vector3.zero;
         isReloading = false;
     }
@@ -32,6 +33,7 @@ public class Bow : MonoBehaviour
     public void Fire(float firePower)
     {
         if (isReloading || currentArrow == null) return;
+        currentArrow.gameObject.SetActive(true);
         var force = spawnPoint.TransformDirection(Vector3.forward * firePower);
         currentArrow.Fly(force);
         currentArrow = null;

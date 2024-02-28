@@ -6,6 +6,11 @@ public class Sword : MonoBehaviour
 {
     [SerializeField] private float cooldownTime;
     private bool isRelaxing;
+    private Camera cam;
+    private void Start()
+    {
+        cam = Camera.main;
+    }
     public void AttackCooldown()
     {
         if (isRelaxing) return;
@@ -24,14 +29,13 @@ public class Sword : MonoBehaviour
 
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 4f))
+        if (Physics.Raycast(cam.transform.position, transform.forward, out hit, 4f))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("HIT!");
                 hit.collider.GetComponent<Enemy>().TakeDamage(10);
                 DamagePopupGenerator.current.CreatePopup(hit.collider.transform.position, 10.ToString());
-                //hit.collider.GetComponent<EnemyController>().TakeDamage(attackDamage);
             }
         }
 
