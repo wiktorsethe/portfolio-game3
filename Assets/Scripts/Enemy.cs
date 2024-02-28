@@ -10,7 +10,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
 
-    [SerializeField] private float health;
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float currentHealth;
 
     //Patroling
     [SerializeField] private Vector3 walkPoint;
@@ -26,12 +27,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float sightRange, attackRange;
     [SerializeField] private bool playerInSightRange, playerInAttackRange;
 
+    [SerializeField] private HealthBar healthBar;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
-
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
+    }
     private void Update()
     {
         //Check for sight and attack range
@@ -97,9 +103,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        currentHealth -= damage;
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
+        if (currentHealth <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
     private void DestroyEnemy()
     {

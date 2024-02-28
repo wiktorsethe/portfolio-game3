@@ -26,6 +26,7 @@ public class Arrow : MonoBehaviour
         {
             Debug.Log("HIT!");
             collider.GetComponent<Enemy>().TakeDamage(10);
+            DamagePopupGenerator.current.CreatePopup(collider.transform.position, 10.ToString());
         }
 
         rb.velocity = Vector3.zero;
