@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public List<EnemyType> enemies = new List<EnemyType>();
-    public int currentWave;
-    public int waveValue;
-    public List<GameObject> enemiesToSpawn = new List<GameObject>();
+    [SerializeField] private List<EnemyType> enemies = new List<EnemyType>();
+    [SerializeField] private int currentWave;
+    [SerializeField] private int waveValue;
+    [SerializeField] private List<GameObject> enemiesToSpawn = new List<GameObject>();
 
-    public Transform spawnLocation;
-    public int waveDuration;
+    [SerializeField] private Transform spawnLocation;
+    [SerializeField] private int waveDuration;
     private float waveTimer;
     private float spawnInterval;
     private float spawnTimer;
 
-    public List<GameObject> spawnedEnemies = new List<GameObject>();
+    [SerializeField] private List<GameObject> spawnedEnemies = new List<GameObject>();
     private void Start()
     {
         GenerateWave();
@@ -43,11 +43,24 @@ public class WaveSpawner : MonoBehaviour
             waveTimer -= Time.deltaTime;
         }
 
-        if (waveTimer <= 0 && spawnedEnemies.Count <= 0)
+        if (waveTimer <= 0 && AreAllEnemiesDead())
         {
             currentWave++;
+            spawnedEnemies.Clear();
             GenerateWave();
         }
+    }
+    private bool AreAllEnemiesDead()
+    {
+        foreach(GameObject enemy in spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
     private void GenerateWave()
     {

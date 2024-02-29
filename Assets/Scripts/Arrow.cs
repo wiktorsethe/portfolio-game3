@@ -24,7 +24,6 @@ public class Arrow : MonoBehaviour
         
         if (collider.tag == "Enemy")
         {
-            Debug.Log("HIT!");
             collider.GetComponent<Enemy>().TakeDamage(10);
             DamagePopupGenerator.current.CreatePopup(collider.transform.position, 10.ToString());
         }

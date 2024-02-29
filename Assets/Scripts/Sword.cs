@@ -33,7 +33,6 @@ public class Sword : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                Debug.Log("HIT!");
                 hit.collider.GetComponent<Enemy>().TakeDamage(10);
                 DamagePopupGenerator.current.CreatePopup(hit.collider.transform.position, 10.ToString());
             }

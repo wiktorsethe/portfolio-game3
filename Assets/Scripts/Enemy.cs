@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
 
     private void Patroling()
     {
-        if (!walkPointSet) SearchWalkPoint(); // tu doda³em else
+        if (!walkPointSet) SearchWalkPoint();
         else if (walkPointSet) agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
@@ -71,7 +71,6 @@ public class Enemy : MonoBehaviour
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
             walkPointSet = true;
     }
-
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
