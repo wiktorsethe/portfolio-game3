@@ -66,6 +66,11 @@ public class Enemy : MonoBehaviour
         }
 
         timer += Time.deltaTime;
+        if(timer > 8f && !isDead)
+        {
+            SearchWalkPoint();
+            timer = 0f;
+        }
     }
 
     private void Patroling()
