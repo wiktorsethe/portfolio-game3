@@ -9,15 +9,18 @@ public class WaveSpawner : MonoBehaviour
     [SerializeField] private int waveValue;
     [SerializeField] private List<GameObject> enemiesToSpawn = new List<GameObject>();
 
-    [SerializeField] private Transform spawnLocation;
+    [SerializeField] private List<Transform> spawnLocations = new List<Transform>();
     [SerializeField] private int waveDuration;
     private float waveTimer;
     private float spawnInterval;
     private float spawnTimer;
 
     [SerializeField] private List<GameObject> spawnedEnemies = new List<GameObject>();
+
+    private LevelMenu levelMenu;
     private void Start()
     {
+        levelMenu = GameObject.FindObjectOfType(typeof(LevelMenu)) as LevelMenu;
         GenerateWave();
     }
     //FixedUpdate for more accurate timers
@@ -27,7 +30,8 @@ public class WaveSpawner : MonoBehaviour
         {
             if(enemiesToSpawn.Count > 0)
             {
-                GameObject enemy = (GameObject)Instantiate(enemiesToSpawn[0], spawnLocation.position, Quaternion.identity);
+                int randInt = Random.Range(0, spawnLocations.Count);
+                GameObject enemy = (GameObject)Instantiate(enemiesToSpawn[0], spawnLocations[randInt].position, Quaternion.identity);
                 enemiesToSpawn.RemoveAt(0);
                 spawnedEnemies.Add(enemy);
                 spawnTimer = spawnInterval;
@@ -64,11 +68,25 @@ public class WaveSpawner : MonoBehaviour
     }
     private void GenerateWave()
     {
-        waveValue = currentWave * 10;
+        levelMenu.ShowWaveText(currentWave);
+        waveValue = CalculateWaveValue(currentWave);
         GenerateEnemies();
 
         spawnInterval = waveDuration / enemiesToSpawn.Count;
         waveTimer = waveDuration;
+    }
+    private int CalculateWaveValue(int wave)
+    {
+        int waveValue = 15;
+        double multiplier = 1.2;
+
+        for (int i = 2; i <= wave; i++)
+        {
+            waveValue += 3;
+            waveValue = (int)(waveValue * multiplier);
+        }
+
+        return waveValue;
     }
     private void GenerateEnemies()
     {
