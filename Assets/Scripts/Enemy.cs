@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
     private float timer;
+    private PlayerHealth playerHp;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.UpdateHealthBar(maxHealth, currentHealth);
         isDead = false;
+        playerHp = GameObject.FindObjectOfType(typeof(PlayerHealth)) as PlayerHealth;
     }
     private void Update()
     {
@@ -120,6 +122,7 @@ public class Enemy : MonoBehaviour
             int randInt = Random.Range(0, 2);
             if(randInt == 0) animator.SetTrigger("LeftPunch");
             else if(randInt == 1) animator.SetTrigger("RightPunch");
+            playerHp.Damage(5f);
             timer = 0f;
         }
     }
