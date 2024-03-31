@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 using TMPro;
 public class LevelMenu : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject deathMenu;
     [SerializeField] private GameObject waveText;
 
     private float targetPauseTimeScale = 0f;
@@ -16,6 +18,9 @@ public class LevelMenu : MonoBehaviour
     private bool isPaused = false;
     private PlayerController playerController;
     private WeaponController weaponController;
+
+    [SerializeField] private Animator transition;
+    [SerializeField] private GameObject levelLoader;
     private void Start()
     {
         playerController = GameObject.FindObjectOfType(typeof(PlayerController)) as PlayerController;
@@ -37,7 +42,6 @@ public class LevelMenu : MonoBehaviour
                 isPaused = true;
             }
         }
-        Debug.Log(Time.timeScale);
     }
     public void ShowWaveText(int waveValue)
     {
@@ -67,6 +71,7 @@ public class LevelMenu : MonoBehaviour
         {
             mainMenu.SetActive(false);
             pauseMenu.SetActive(true);
+            deathMenu.SetActive(false);
             initialTimeScale = 1f;
         }
     }
@@ -76,6 +81,7 @@ public class LevelMenu : MonoBehaviour
         {
             mainMenu.SetActive(true);
             pauseMenu.SetActive(false);
+            deathMenu.SetActive(false);
             playerController.enabled = true;
             weaponController.enabled = true;
             Cursor.lockState = CursorLockMode.Locked;
@@ -99,5 +105,43 @@ public class LevelMenu : MonoBehaviour
         {
             initialTimeScale = 0f;
         }
+    }
+    public void Quit()
+    {
+        Time.timeScale = 1f;
+        StartCoroutine("LoadMenu");
+
+    }
+    private IEnumerator LoadMenu()
+    {
+        levelLoader.SetActive(true);
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadSceneAsync(0);
+    }
+    public void DeathMenu()
+    {
+        Time.timeScale = 0f;
+        isPaused = true;
+        playerController.enabled = false;
+        weaponController.enabled = false;
+        mainMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        deathMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        StartCoroutine("LoadRestart");
+    }
+    private IEnumerator LoadRestart()
+    {
+        levelLoader.SetActive(true);
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }
