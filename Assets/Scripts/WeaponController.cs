@@ -9,7 +9,6 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] private float firePowerSpeed;
     [SerializeField] private float attackPower;
-
     private bool attack;
 
     [Range(0,1)]

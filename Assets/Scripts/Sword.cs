@@ -13,8 +13,11 @@ public class Sword : MonoBehaviour
     }
     public void AttackCooldown()
     {
+        //Checking if player can attack
         if (isRelaxing) return;
         isRelaxing = true;
+
+        //Waiting for attack
         StartCoroutine(AttackAfterTime());
     }
     private IEnumerator AttackAfterTime()
@@ -24,10 +27,11 @@ public class Sword : MonoBehaviour
     }
     public void Sweep(float attackPower)
     {
+        //Checking if player can attack
         if (isRelaxing) return;
         GetComponent<Animator>().SetTrigger("Attack");
 
-
+        //Checking if Enemy is in sword range
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, transform.forward, out hit, 4f))
         {
@@ -38,6 +42,7 @@ public class Sword : MonoBehaviour
             }
         }
 
+        //Setting up a cooldown
         AttackCooldown();
     }
     public void ChangeWeapon()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using TMPro;
@@ -35,6 +36,7 @@ public class LevelMenu : MonoBehaviour
         {
             if (!isPaused)
             {
+                Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 StartCoroutine(PauseAnimation());
                 playerController.enabled = false;
@@ -121,6 +123,7 @@ public class LevelMenu : MonoBehaviour
     }
     public void DeathMenu()
     {
+        deathMenu.GetComponent<Image>().DOFade(0.8f, 0.7f).SetUpdate(true);
         Time.timeScale = 0f;
         isPaused = true;
         playerController.enabled = false;

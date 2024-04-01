@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthBarSprite;
-
     private Camera cam;
 
     private void Start()

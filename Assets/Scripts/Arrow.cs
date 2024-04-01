@@ -19,15 +19,19 @@ public class Arrow : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        //Checking if arrow has already hit object
         if (didHit) return;
         didHit = true;
         
+        //Checking if object is Enemy
         if (collider.tag == "Enemy")
         {
             collider.GetComponent<Enemy>().TakeDamage(10);
             DamagePopupGenerator.current.CreatePopup(collider.transform.position, 10.ToString());
+            Destroy(gameObject, 1f);
         }
 
+        //Stopping arrow on object
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.isKinematic = true;
